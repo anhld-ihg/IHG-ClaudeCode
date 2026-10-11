@@ -1,0 +1,84 @@
+name: Project Workflow Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'projects/**'
+      - 'templates/**'
+
+  push:
+    branches: [main]
+    paths:
+      - 'projects/**'
+
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Project ID to process'
+        required: false
+
+jobs:
+  validate-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate project structure
+        run: |
+          echo "=== Validating Project Structure ==="
+          
+          if [ -n "${{ github.event.inputs.project_id }}" ]; then
+            PROJECT_DIR="projects/${{ github.event.inputs.project_id }}"
+          else
+            # Find changed project directories
+            PROJECT_DIR=$(git diff --name-only HEAD~1 | grep "^projects/" | cut -d/ -f2 | head -1)
+            PROJECT_DIR="projects/$PROJECT_DIR"
+          fi
+          
+          echo "Checking project: $PROJECT_DIR"
+          
+          if [ -d "$PROJECT_DIR" ]; then
+            echo "✓ Project directory exists"
+            
+            # Check required files
+            for file in "phiếu-tiếp-nhận.md" "bang-can-cu-ap-dung.md" "danh-muc-ho-so.md"; do
+              if [ -f "$PROJECT_DIR/$file" ] || [ -f "$PROJECT_DIR/${file}" ]; then
+                echo "✓ $file exists"
+              else
+                echo "⚠ $file not found"
+              fi
+            done
+          else
+            echo "✗ Project directory not found"
+            exit 1
+          fi
+
+  run-quality-check:
+    needs: validate-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run QA checks
+        run: |
+          echo "=== Running QA Checks ==="
+          # Add your QA validation logic here
+          # Example: validate YAML, check file formats
+          
+          echo "QA checks completed"
+
+  notify:
+    needs: [validate-project, run-quality-check]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate summary
+        run: |
+          echo "=== Project Workflow Summary ==="
+          echo "Project: ${{ github.event.inputs.project_id || 'Auto-detected' }}"
+          echo "Validation: ${{ needs.validate-project.result }}"
+          echo "QA: ${{ needs.run-quality-check.result }}"
+          echo "Overall: ${{ job.status }}"

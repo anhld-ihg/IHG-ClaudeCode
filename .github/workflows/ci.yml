@@ -1,0 +1,69 @@
+name: CI - Continuous Integration
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@v11
+        with:
+          configFile: '.markdownlint.json'
+          files: |
+            .claude/**/*.md
+            knowledge/**/*.md
+            templates/**/*.md
+            projects/**/*.md
+
+      - name: YAML lint
+        run: |
+          echo "Checking YAML files..."
+          for f in $(find . -name "*.yml" -o -name "*.yaml"); do
+            if command -v python3 &> /dev/null; then
+              python3 -c "import yaml; yaml.safe_load(open('$f'))" 2>/dev/null && echo "✓ $f" || echo "✗ $f"
+            fi
+          done
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run test fixtures
+        run: |
+          echo "=== Running Test Fixtures ==="
+          # Add your test runner logic here
+          # Example: ./tests/run.sh
+          
+          echo "Tests completed"
+
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "Test report generated"
+
+  backup:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create backup
+        run: |
+          echo "=== Creating Backup ==="
+          BACKUP_FILE="backup-$(date +%Y%m%d-%H%M%S).tar.gz"
+          tar -czf "$BACKUP_FILE" \
+            .claude \
+            knowledge \
+            templates \
+            projects \
+            2>/dev/null || true
+          echo "Backup created: $BACKUP_FILE"
+          ls -la *.tar.gz 2>/dev/null || echo "No backups"

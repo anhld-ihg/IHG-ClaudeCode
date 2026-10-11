@@ -1,0 +1,65 @@
+name: Regulatory Watch
+
+on:
+  schedule:
+    # Run at 07:00 Vietnam time (00:00 UTC) every day
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: 'Force run even if no changes'
+        required: false
+        default: 'false'
+
+jobs:
+  check-regulations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for updates
+        id: check
+        run: |
+          echo "=== Checking Regulatory Sources ==="
+          echo "Last check: $(date)"
+          
+          # Read current registry
+          if [ -f "knowledge/regulations/so-dang-ky.md" ]; then
+            echo "Registry file found"
+            # Add your scraping logic here
+            # Example: curl to vbpl.vn, vanban.chinhphu.vn
+          else
+            echo "Registry file not found - initializing"
+          fi
+
+      - name: Check VATB Law updates
+        run: |
+          echo "=== Checking VATB/VANBAN Sources ==="
+          # Add API calls to regulatory sources
+          # Example pseudo-code:
+          # response=$(curl -s "https://api.vbpl.vn/checkUpdates")
+          # echo "$response"
+          
+      - name: Generate report
+        if: always()
+        run: |
+          echo "=== Regulatory Watch Report ==="
+          echo "Date: $(date)"
+          echo "Status: ${{ job.status }}"
+          
+      - name: Update registry
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          echo "Updating registry with new findings..."
+          
+      - name: Create issue for changes
+        if: steps.check.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              title: "Quy định mới cần xem xét",
+              body: "Phát hiện thay đổi quy định mới. Vui lòng xem xét tác động.",
+              labels: ["regulatory-watch"]
+            })

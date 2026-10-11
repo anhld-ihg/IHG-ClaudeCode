@@ -1,0 +1,16 @@
+{
+  "default": true,
+  "MD003": {
+    "style": "atx"
+  },
+  "MD013": {
+    "line_length": 120
+  },
+  "MD033": {
+    "allowed_elements": ["details", "summary"]
+  },
+  "MD041": false,
+  "MD046": {
+    "style": " fenced"
+  }
+}

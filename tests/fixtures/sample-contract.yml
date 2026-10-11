@@ -1,0 +1,54 @@
+# Dữ liệu kiểm thử hợp đồng
+# Trạng thái: TEMPLATE - CHƯA TEST
+
+mã_dự_án: "CON-TEST-001"
+tên: "Kiểm thử rà soát hợp đồng"
+
+hợp_đồng:
+  số: "HĐ-2025/IB-001"
+  ngày_ký: "2025-01-10"
+  bên_a: "UBND Huyện ABC"
+  bên_b: "Công ty TNHH IHG"
+  giá_trị: 1200000000
+  thời_gian: "12 tháng"
+  loại: "Giá trị cố định, trọn gói"
+
+phạm_vi:
+  sản_phẩm:
+    - "Đo đạc lập bản đồ địa chính"
+    - "Xây dựng CSDL địa chính"
+    - "Lập hồ sơ địa chính"
+    
+  địa_phương:
+    - "Xã X, Huyện ABC"
+    - "Xã Y, Huyện ABC"
+    
+  khối_lượng:
+    số_thửa: 1500
+    số_tờ_bản_đồ: 25
+
+tiến_độ:
+  mốc:
+    - tên: "Hoàn thành đo đạc"
+      thời_hạn: "2025-04-30"
+      
+    - tên: "Hoàn thành CSDL"
+      thời_hạn: "2025-08-31"
+      
+    - tên: "Bàn giao"
+      thời_hạn: "2025-12-31"
+
+thanh_toán:
+  tạm_ứng: "20% sau khi ký HĐ"
+  đợt: "Hàng tháng theo khối lượng"
+  giữ_lại: "10% khi nghiệm thu"
+  vat: "10%"
+
+lỗi_thử_nghiệm:
+  - mã: "CON-001"
+    loại: "Mâu thuẫn điều khoản"
+    mô_tả: "Điều 3.2 nói 30 ngày, Điều 5.1 nói 15 ngày"
+    
+  - mã: "CON-002"
+    loại: "Thiếu điều khoản"
+    mô_tả: "Không quy định về xử lý tranh chấp"

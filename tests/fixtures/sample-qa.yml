@@ -1,0 +1,45 @@
+# Dữ liệu kiểm thử QA
+# Trạng thái: TEMPLATE - CHƯA TEST
+
+mã_dự_án: "QA-TEST-001"
+tên: "Kiểm thử quy trình QA"
+
+kịch_bản_kiểm_thử:
+  - tên: "Tiếp nhận dự án"
+    kỳ_vọng:
+      - "Tạo được phiếu tiếp nhận"
+      - "Xác định được thông tin còn thiếu"
+    kết_quả: "CHƯA KIỂM THỬ"
+
+  - tên: "Kiểm tra căn cứ pháp luật"
+    kỳ_vọng:
+      - "Xác minh được hiệu lực"
+      - "Ghi nhận nguồn tra cứu"
+    kết_quả: "CHƯA KIỂM THỬ"
+
+  - tên: "Lập hồ sơ nghiệm thu"
+    kỳ_vọng:
+      - "Đầy đủ theo yêu cầu"
+      - "Có đầy đủ chữ ký"
+    kết_quả: "CHƯA KIỂM THỬ"
+
+lỗi_phát_hiện:
+  - mã: "QA-001"
+    loại: "Quy trình"
+    mô_tả: "Không có bước kiểm tra chéo giữa các agent"
+    
+  - mã: "QA-002"
+    loại: "Tài liệu"
+    mô_tả: "Mẫu biên bản thiếu trường ngày"
+    
+  - mã: "QA-003"
+    loại: "Chất lượng"
+    mô_tả: "OCR không đọc được chữ viết tay"
+
+tình_trạng:
+  tổng: 15
+  đạt: 0
+  chưa_đạt: 0
+  chưa_kiểm_thử: 15
+  
+ngày_kiểm_thử: "CHƯA THỰC HIỆN"

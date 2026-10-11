@@ -1,0 +1,36 @@
+# Dữ liệu kiểm thử GIS
+# Trạng thái: TEMPLATE - CHƯA TEST
+
+mã_dự_án: "GIS-TEST-001"
+tên: "Kiểm thử hệ thống GIS"
+
+dữ_liệu_gis:
+  - tên_lớp: "thua_dat"
+    loại: "Polygon"
+    số_đối_tượng: 150
+    hệ_quy_chiếu: "EPSG:4326"
+    trạng_thái: "hợp lệ"
+    
+  - tên_lớp: "tờ_bản_đồ"
+    loại: "Polygon"
+    số_đối_tượng: 25
+    hệ_quy_chiếu: "EPSG:4326"
+    trạng_thái: "hợp lệ"
+
+lỗi_thử_nghiệm:
+  - mã_lỗi: "GIS-001"
+    loại: "Hình học"
+    mô_tả: "Polygon tự giao"
+    xử_lý: "Cần kiểm tra lại tọa độ"
+
+  - mã_lỗi: "GIS-002"
+    loại: "Topology"
+    mô_tả: "Thửa đất chồng lấn"
+    xử_lý: "Cần xác minh ranh giới với hồ sơ"
+
+yêu_cầu_chất_lượng:
+  - tiêu_chí: "Tất cả geometry hợp lệ"
+    kết_quả: "CHƯA KIỂM THỬ"
+    
+  - tiêu_chí: "Không có gap giữa các thửa"
+    kết_quả: "CHƯA KIỂM THỬ"

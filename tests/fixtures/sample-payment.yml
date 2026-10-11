@@ -1,0 +1,47 @@
+# Dữ liệu kiểm thử thanh toán
+# Trạng thái: TEMPLATE - CHƯA TEST
+
+mã_dự_án: "PAY-TEST-001"
+tên: "Kiểm thử quy trình thanh toán"
+
+hợp_đồng:
+  số: "HĐ-TEST-001"
+  ngày_ký: "2025-06-15"
+  giá_trị: 500000000
+  loại: "Giá trị cố định"
+
+điều_khoản:
+  tỷ_lệ_tạm_ứng: 0.20
+  tỷ_lệ_giữ_lại: 0.10
+  thuế_suất: 0.10
+
+các_kỳ:
+  - kỳ: 1
+    loại: "Tạm ứng"
+    giá_trị: 100000000
+    trạng_thái: "Đã thanh toán"
+    
+  - kỳ: 2
+    loại: "Thanh toán đợt 1"
+    khối_lượng: 200000000
+    trạng_thái: "Đã thanh toán"
+    
+  - kỳ: 3
+    loại: "Thanh toán đợt 2"
+    khối_lượng: 150000000
+    trạng_thái: "Chờ duyệt"
+
+lỗi_thử_nghiệm:
+  - mã: "PAY-001"
+    loại: "Trùng khối lượng"
+    mô_tả: "Khối lượng kỳ 3 trùng với kỳ 2"
+    
+  - mã: "PAY-002"
+    loại: "Tính thuế sai"
+    mô_tả: "VAT tính 11% thay vì 10%"
+
+tình_trạng:
+  tổng_giá_trị: 500000000
+  đã_nghiệm_thu: 350000000
+  đã_thanh_toán: 280000000
+  công_nợ: 70000000

@@ -1,0 +1,68 @@
+# Dữ liệu kiểm thử workflow
+# Trạng thái: TEMPLATE - CHƯA TEST
+
+mã_dự_án: "WF-TEST-001"
+tên: "Kiểm thử workflow dự án"
+
+workflow_thử_nghiệm:
+  bước:
+    - số: 1
+      tên: "Tiếp nhận dự án"
+      skill: "ihg-project-intake"
+      đầu_ra: "Phiếu tiếp nhận"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 2
+      tên: "Xác minh căn cứ"
+      skill: "ihg-regulatory-check"
+      đầu_ra: "Báo cáo kiểm tra"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 3
+      tên: "Xử lý nghiệp vụ"
+      agent: "ihg-archives, ihg-digitization"
+      đầu_ra: "Dữ liệu đã xử lý"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 4
+      tên: "Kiểm tra chất lượng"
+      skill: "ihg-quality-audit"
+      đầu_ra: "Báo cáo QA"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 5
+      tên: "Dự thảo nghiệm thu"
+      skill: "ihg-acceptance-dossier"
+      đầu_ra: "Hồ sơ nghiệm thu"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 6
+      tên: "Đối chiếu tài chính"
+      skill: "ihg-payment-reconciliation"
+      đầu_ra: "Bảng đối chiếu"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 7
+      tên: "Dự thảo thanh toán"
+      skill: "ihg-payment-dossier"
+      đầu_ra: "Hồ sơ thanh toán"
+      trạng_thái: "CHƯA TEST"
+      
+    - số: 8
+      tên: "Trình phê duyệt"
+      agent: "ihg-admin-legal"
+      đầu_ra: "Phê duyệt"
+      trạng_thái: "CHƯA TEST"
+
+phụ_thuộc:
+  - từ: 2
+    đến: 3
+    mô_tả: "Cần căn cứ trước khi xử lý"
+    
+  - từ: 4
+    đến: 5
+    mô_tả: "Cần QA đạt trước khi nghiệm thu"
+    
+  - từ: 5
+    đến: 6
+    mô_tả: "Cần nghiệm thu trước khi thanh toán"

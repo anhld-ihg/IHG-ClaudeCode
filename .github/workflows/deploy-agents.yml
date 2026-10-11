@@ -1,0 +1,72 @@
+name: Deploy Agents & Skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.claude/agents/**'
+      - '.claude/skills/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Agents
+        run: |
+          echo "=== Validating Agents ==="
+          for agent in .claude/agents/*.md; do
+            echo "Checking: $agent"
+            if grep -q "name:" "$agent"; then
+              echo "✓ $agent has name field"
+            else
+              echo "✗ $agent missing name field"
+              exit 1
+            fi
+          done
+
+      - name: Validate Skills
+        run: |
+          echo "=== Validating Skills ==="
+          for skill in .claude/skills/*.md; do
+            echo "Checking: $skill"
+            if grep -q "name:" "$skill"; then
+              echo "✓ $skill has name field"
+            else
+              echo "✗ $skill missing name field"
+              exit 1
+            fi
+          done
+
+      - name: Count components
+        run: |
+          AGENT_COUNT=$(ls .claude/agents/*.md 2>/dev/null | wc -l)
+          SKILL_COUNT=$(ls .claude/skills/*.md 2>/dev/null | wc -l)
+          echo "Agents: $AGENT_COUNT"
+          echo "Skills: $SKILL_COUNT"
+          echo "agent_count=$AGENT_COUNT" >> $GITHUB_OUTPUT
+          echo "skill_count=$SKILL_COUNT" >> $GITHUB_OUTPUT
+
+  sync:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync to production
+        run: |
+          echo "=== Syncing to Production ==="
+          # Add your sync logic here
+          # Example: rsync, scp, or API call to sync with production
+          echo "Sync completed"
+          
+      - name: Create deployment report
+        run: |
+          echo "=== Deployment Report ==="
+          echo "Date: $(date)"
+          echo "Agents: ${{ needs.validate.outputs.agent_count }}"
+          echo "Skills: ${{ needs.validate.outputs.skill_count }}"
