@@ -1,0 +1,44 @@
+name: IHG PILOT-002 Tests
+
+on:
+  push:
+    branches: [main, master, claude/**]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/test.yml'
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:  # cho phep chay tay
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: AI-Office/02-DU-AN/2026/IT/TEST-COORD-002
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Smoke test (import)
+        run: python tests/smoke.py
+
+      - name: Run 25 test case
+        run: |
+          python tests/runtests.py
+          echo "Exit code: $?"
+
+      - name: Upload test summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summary
+          path: AI-Office/02-DU-AN/2026/IT/TEST-COORD-002/state/test-summary.json
+          if-no-files-found: ignore
