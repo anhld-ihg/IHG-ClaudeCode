@@ -1,0 +1,8 @@
+.env
+.sessions.json
+.authorized.json
+node_modules/
+bot.log
+*.b64
+install-vps.sh
+workspace/
